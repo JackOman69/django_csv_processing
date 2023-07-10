@@ -1,0 +1,31 @@
+version: '3.7'
+
+services: 
+  app:
+    build: .
+    command: /bin/sh -c "cd /usr/src; python ./manage.py migrate --noinput; gunicorn csvprocessing.wsgi --bind 0.0.0.0:8008"
+    volumes:
+      - .:/usr/src
+      - ./persistentdata/static:/usr/src/persistentdata/static
+      - ./persistentdata/media:/usr/src/persistentdata/media
+    expose:
+      - 8008
+    depends_on:
+      - postgresql
+    networks:
+      - net
+
+  postgresql:
+    build: ./postgres
+    container_name: postgresql
+    environment:
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=djingo
+      - POSTGRES_DB=django_db
+    ports:
+      - 5432:5432
+    networks:
+      - net
+
+networks:
+  net:
