@@ -78,7 +78,7 @@ $ git clone https://github.com/JackOman69/voice_stickers_telegram.git
 <a href="https://docs.docker.com/desktop/">Docker Desktop</a>
 
 ### Установка .env:
-
+# В проекте уже имеются файлы .env и local_settings.py
 * Создайте файл `.env` в корневой директории и вложите туда переменную Django key:
 
 ```python
@@ -147,9 +147,123 @@ $ docker-compose up --build
 
 - `POST http://127.0.0.1:8008/csv/process/` - Запрос на вложение csv файла в сервер
 Запрос осуществляется с помощью `Multipart Form` и ключа `deals`
+- Ответ HTTP_200:
+```json
+{
+	"Status": "OK"
+}
+```
+- Ответ HTTP_400:
+```json
+{
+	"Status": "Error",
+	"Desc": "Неподдерживаемый формат файла - в процессе обработки файла произошла ошибка"
+}
+```
+- Ответ HTTP_400 с любым другим видом ошибки:
+```json
+{
+	"Status": "Error",
+	"Desc": "{Error} - в процессе обработки файла произошла ошибка"
+}
+```
 
 - `GET http://127.0.0.1:8008/csv/process/` - Запрос на получение данных с последнего закаченного csv файла на сервер
+- Ответ HTTP_200:
+```json
+{
+	"response": [
+		{
+			"username": "resplendent",
+			"spent_money": 451731,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "bellwether",
+			"spent_money": 217794,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "uvulaperfly117",
+			"spent_money": 120419,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "braggadocio",
+			"spent_money": 108957,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "turophile",
+			"spent_money": 100132,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		}
+	]
+}
+```
 
 - `GET http://127.0.0.1:8008/csv/get_csv/<int:id>` - Запрос на получение данных с csv файла по его ID
+- Ответ HTTP_200:
+```json
+{
+	"response": [
+		{
+			"username": "resplendent",
+			"spent_money": 451731,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "bellwether",
+			"spent_money": 217794,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "uvulaperfly117",
+			"spent_money": 120419,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "braggadocio",
+			"spent_money": 108957,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		},
+		{
+			"username": "turophile",
+			"spent_money": 100132,
+			"gems": [
+				"Сапфир",
+				"Танзанит"
+			]
+		}
+	]
+}
+```
 
 **Все GET запросы кешируются с помощью Redis на 15 минут**

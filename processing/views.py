@@ -101,7 +101,8 @@ class CSVFileApiView(GenericAPIView):
 class ExactCSVFileApiView(viewsets.ViewSet):
     
     serializer_class = CSVSerializer
-            
+    
+    @method_decorator(cache_page(60*15))
     @action(detail=True, methods=["get"])
     def retrieve(self, request, id):
         try:
